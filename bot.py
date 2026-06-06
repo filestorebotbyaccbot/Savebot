@@ -2,35 +2,8 @@
 # Subscribe YouTube Channel For Amazing Bot https://youtube.com/@Tech_VJ
 # Ask Doubt on telegram @KingVJ01
 
-import os
-import threading
-from http.server import SimpleHTTPRequestHandler, HTTPServer
 from pyrogram import Client
 from config import API_ID, API_HASH, BOT_TOKEN, STRING_SESSION, LOGIN_SYSTEM
-
-# --- WEB SERVER PORT BINDING SYSTEM ---
-def run_web_server():
-    # Hosting platforms (Render/Koyeb) automatic PORT environment variable dete hain
-    # Agar variable nahi milega, toh default 8080 use hoga
-    port = int(os.environ.get("PORT", 8080))
-    server_address = ("", port)
-    
-    class HealthCheckHandler(SimpleHTTPRequestHandler):
-        def do_GET(self):
-            # Render/Koyeb jab is port par ping karenge, toh unhe 200 OK milega
-            self.send_response(200)
-            self.send_header("Content-type", "text/html")
-            self.end_headers()
-            self.wfile.write(b"Bot is Running Alive 24/7 Powered by @VJ_Bots")
-
-    httpd = HTTPServer(server_address, HealthCheckHandler)
-    print(f"🌍 Web Service Port Binding Successful on Port: {port}")
-    httpd.serve_forever()
-
-# Web server ko background thread mein start karna taaki Pyrogram bot block na ho
-web_thread = threading.Thread(target=run_web_server, daemon=True)
-web_thread.start()
-# --------------------------------------
 
 if STRING_SESSION is not None and LOGIN_SYSTEM == False:
     TechVJUser = Client("TechVJ", api_id=API_ID, api_hash=API_HASH, session_string=STRING_SESSION)
